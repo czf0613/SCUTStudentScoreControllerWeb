@@ -7,8 +7,10 @@ import org.springframework.data.repository.query.Param;
 public interface UserDAO extends JpaRepository<User,Integer> {
     boolean existsByUserName(String userName);
 
-    int countAllByUserNameAndPassword(String userName,String password);
     User findByUserName(String userName);
+
+    @Query(value = "select u.flag from User u where u.userName= :userName")
+    int getTypeWithUserName(@Param("userName")String userName);
 
     @Query(value = "select u.password from User u where u.userName= :userName")
     String getPasswordWithUserName(@Param("userName")String userName);

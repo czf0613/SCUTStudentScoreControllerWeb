@@ -13,7 +13,7 @@ import java.util.Objects;
 @Table(name = "teacher",schema = "dealate")
 @TypeDef(name="json",typeClass = JsonStringType.class)
 public class Teacher implements Serializable {
-    private int id;
+    private Integer id;
     private String name;
     private int gender;
     private String major;
@@ -22,11 +22,11 @@ public class Teacher implements Serializable {
     @Id
     @Column(name = "id", nullable = false)
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    public int getId() {
+    public Integer getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 
