@@ -1,9 +1,48 @@
 package com.czf.server.controllers;
 
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import com.alibaba.fastjson.JSON;
+import com.czf.server.beans.Score;
+import com.czf.server.entities.TeacherDAO;
+import com.czf.server.services.TeacherService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/teacher")
 public class TeacherFunctions {
+    @Autowired
+    private TeacherDAO teacherDAO;
+    @Autowired
+    private TeacherService teacherService;
+
+    @RequestMapping(value = "/{id}/self",method = RequestMethod.GET)
+    public ResponseEntity<String> getSelf(@PathVariable("id")int id){
+        if(!teacherService.checkId(id))
+            return new ResponseEntity<>("该教师不存在", HttpStatus.NOT_FOUND);
+        else
+            return new ResponseEntity<>(JSON.toJSONString(teacherDAO.findById(id)),HttpStatus.OK);
+    }
+
+    @RequestMapping(value = "/{id}/studentScore/{stuId}",method = RequestMethod.GET)
+    public ResponseEntity<String> getScore(@PathVariable("id")int id,@PathVariable("stuId")int stuId){
+        if(!teacherService.checkId(id))
+            return new ResponseEntity<>("该教师不存在", HttpStatus.NOT_FOUND);
+        return new ResponseEntity<>(JSON.toJSONString(teacherService.sumStudent(id, stuId)),HttpStatus.OK);
+    }
+
+    @RequestMapping(value = "/{id}/avg",method = RequestMethod.GET)
+    public ResponseEntity<String> getAvg(@PathVariable("id")int id){
+        if(!teacherService.checkId(id))
+            return new ResponseEntity<>("该教师不存在", HttpStatus.NOT_FOUND);
+        return new ResponseEntity<>(JSON.toJSONString(teacherService.avg(id)),HttpStatus.OK);
+    }
+
+    @RequestMapping(value = "/modifyScore",method = RequestMethod.POST)
+    public ResponseEntity<String> modify(@RequestParam("content")String jsonString){
+        Score score=JSON.parseObject(jsonString,Score.class);
+        teacherService.modify(score);
+        return new ResponseEntity<>("修改成功",HttpStatus.OK);
+    }
 }
