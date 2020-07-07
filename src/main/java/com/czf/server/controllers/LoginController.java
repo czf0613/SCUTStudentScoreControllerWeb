@@ -36,7 +36,7 @@ public class LoginController {
         else if(result==-1)
             return new ResponseEntity<>("密码错误",HttpStatus.UNAUTHORIZED);
         else
-            return new ResponseEntity<>("登陆成功",HttpStatus.OK);
+            return new ResponseEntity<>(String.valueOf(loginService.findIdWithUserName(userName)),HttpStatus.OK);
     }
 
     @RequestMapping(value = "/modify",method = RequestMethod.POST)

@@ -46,4 +46,8 @@ public class LoginService {
         int result=userDAO.getTypeWithUserName(name);
         return result==type;
     }
+
+    public int findIdWithUserName(String name){
+        return userDAO.getAccountWithUserName(name);
+    }
 }
