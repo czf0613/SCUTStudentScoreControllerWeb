@@ -1,6 +1,7 @@
 package com.czf.server.services;
 
 import com.czf.server.beans.CourseScore;
+import com.czf.server.beans.CourseScoreInDouble;
 import com.czf.server.beans.Score;
 import com.czf.server.entities.*;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,9 +26,7 @@ public class TeacherService {
 
     public List<CourseScore> sumStudent(int teacherId,int stuId){
         Teacher teacher=teacherDAO.findById(teacherId);
-        List<Integer> courses=new ArrayList<>();
-        for(Course course:teacher.getCourse())
-            courses.add(course.getId());
+        List<Integer> courses=new ArrayList<>(teacher.getCourse());
         List<CourseScore> courseScores=new ArrayList<>(scoreDAO.sumByStuIdAndCourseIn(stuId,courses));
         for(CourseScore score:courseScores)
             score.setCourseName(courseDAO.findNameById(score.getCourse()));
@@ -35,16 +34,14 @@ public class TeacherService {
         return courseScores;
     }
 
-    public List<CourseScore> avg(int teacherId){
+    public List<CourseScoreInDouble> avg(int teacherId){
         Teacher teacher=teacherDAO.findById(teacherId);
-        List<Integer> courses=new ArrayList<>();
-        for(Course course:teacher.getCourse())
-            courses.add(course.getId());
+        List<Integer> courses=new ArrayList<>(teacher.getCourse());
 
-        List<CourseScore> courseScores=new ArrayList<>(scoreDAO.avg(courses));
-        for(CourseScore score:courseScores)
-            score.setCourseName(courseDAO.findNameById(score.getCourse()));
-        courseScores.sort(CourseScore::compareTo);
+        List<CourseScoreInDouble> courseScores=new ArrayList<>(scoreDAO.avg(courses));
+        for(CourseScoreInDouble courseScoreInDouble:courseScores)
+            courseScoreInDouble.setCourseName(courseDAO.findNameById(courseScoreInDouble.getCourse()));
+        courseScores.sort(CourseScoreInDouble::compareTo);
         return courseScores;
     }
 

@@ -14,24 +14,24 @@ import java.util.Objects;
 @Entity
 @Table(name = "course",schema = "dealate")
 @TypeDef(name="json",typeClass = JsonStringType.class)
-public class Course implements Serializable {
-    private int id;
+public class Course {
+    private Integer id;
     private String courseName;
-    private List<Teacher> teachers;
+    private List<Integer> teachers;
     private BigDecimal credit;
     private List<String> grade;
     private Date startDate;
     private Date endDate;
-    private List<Student> students;
+    private List<Integer> students;
 
     @Id
     @Column(name = "id", nullable = false)
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    public int getId() {
+    public Integer getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 
@@ -48,11 +48,11 @@ public class Course implements Serializable {
     @Basic
     @Type(type = "json")
     @Column(name = "teachers", nullable = true,columnDefinition = "json")
-    public List<Teacher> getTeachers() {
+    public List<Integer> getTeachers() {
         return teachers;
     }
 
-    public void setTeachers(List<Teacher> teachers) {
+    public void setTeachers(List<Integer> teachers) {
         this.teachers = teachers;
     }
 
@@ -100,11 +100,11 @@ public class Course implements Serializable {
     @Basic
     @Type(type = "json")
     @Column(name = "students", nullable = true,columnDefinition = "json")
-    public List<Student> getStudents() {
+    public List<Integer> getStudents() {
         return students;
     }
 
-    public void setStudents(List<Student> students) {
+    public void setStudents(List<Integer> students) {
         this.students = students;
     }
 

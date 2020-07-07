@@ -33,9 +33,12 @@ public class StudentService {
 
     public List<Course> findSelectedCourses(int id){
         Student student=studentDAO.findById(id);
-        List<Course> courses=student.getCourse();
-        if(courses.isEmpty())
+        List<Course> courses=new ArrayList<>();
+        List<Integer> courseIds=student.getCourse();
+        if(courseIds==null||courseIds.isEmpty())
             courses=new ArrayList<>();
+        for(Integer integer:courseIds)
+            courses.add(courseDAO.findById(integer.intValue()));
         return courses;
     }
 
@@ -55,36 +58,30 @@ public class StudentService {
 
     public synchronized boolean selectCourse(int stuId,List<Integer> courses){
         Student student=studentDAO.findById(stuId);
-        ArrayList<Integer> selected=new ArrayList<>();
-        List<Course> selectedCourse=new ArrayList<>(student.getCourse());
-        for(Course course:student.getCourse())
-            selected.add(course.getId());
+        ArrayList<Integer> selected=new ArrayList<>(student.getCourse());
 
         for(Integer integer:courses){
             if(!selected.contains(integer)) {
                 Course course=courseDAO.findById(integer.intValue());
-                List<Student> students=course.getStudents();
-                students.add(studentDAO.findById(integer.intValue()));
+                List<Integer> students=course.getStudents();
+                students.add(stuId);
+
                 course.setStudents(students);
                 courseDAO.save(course);
-                selectedCourse.add(course);
+                selected.add(integer);
             }
         }
-        student.setCourse(selectedCourse);
+        student.setCourse(selected);
         studentDAO.save(student);
         return true;
     }
 
     public synchronized boolean remove(int stuId,int courseId){
         Student student=studentDAO.findById(stuId);
-        List<Course> selectedCourse=student.getCourse();
-        selectedCourse.removeIf(course -> course.getId() == courseId);
+        student.getCourse().remove((Integer)courseId);
         Course course=courseDAO.findById(courseId);
-        List<Student> students=course.getStudents();
-        students.removeIf(student1 -> student1.getId()==stuId);
+        course.getStudents().remove((Integer)stuId);
 
-        student.setCourse(selectedCourse);
-        course.setStudents(students);
         studentDAO.save(student);
         courseDAO.save(course);
         return true;

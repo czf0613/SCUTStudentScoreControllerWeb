@@ -12,12 +12,12 @@ import java.util.Objects;
 @Entity
 @Table(name = "teacher",schema = "dealate")
 @TypeDef(name="json",typeClass = JsonStringType.class)
-public class Teacher implements Serializable {
+public class Teacher {
     private Integer id;
     private String name;
     private int gender;
     private String major;
-    private List<Course> course;
+    private List<Integer> course;
 
     @Id
     @Column(name = "id", nullable = false)
@@ -63,11 +63,11 @@ public class Teacher implements Serializable {
     @Basic
     @Type(type = "json")
     @Column(name = "course", nullable = true,columnDefinition = "json")
-    public List<Course> getCourse() {
+    public List<Integer> getCourse() {
         return course;
     }
 
-    public void setCourse(List<Course> course) {
+    public void setCourse(List<Integer> course) {
         this.course = course;
     }
 
