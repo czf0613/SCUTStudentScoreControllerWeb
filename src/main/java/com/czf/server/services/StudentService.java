@@ -1,6 +1,6 @@
 package com.czf.server.services;
 
-import com.czf.server.beans.Beans;
+import com.czf.server.beans.CourseScore;
 import com.czf.server.entities.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -39,16 +39,16 @@ public class StudentService {
         return courses;
     }
 
-    public List<Beans.CourseScore> sumAll(int stuId){
-        List<Beans.CourseScore> scores=scoreDAO.sumByStuId(stuId);
-        for(Beans.CourseScore courseScore:scores)
+    public List<CourseScore> sumAll(int stuId){
+        List<CourseScore> scores=scoreDAO.sumByStuId(stuId);
+        for(CourseScore courseScore:scores)
             courseScore.setCourseName(courseDAO.findNameById(courseScore.getCourse()));
         return scores;
     }
 
-    public Beans.CourseScore sumOne(int stuId,int courseId){
+    public CourseScore sumOne(int stuId,int courseId){
         Score score=scoreDAO.findByCourseIdAndStudentId(courseId,stuId);
-        Beans.CourseScore courseScore=new Beans.CourseScore(courseId,score.getScore());
+        CourseScore courseScore=new CourseScore(courseId,score.getScore());
         courseScore.setCourseName(courseDAO.findNameById(courseId));
         return courseScore;
     }

@@ -1,7 +1,7 @@
 package com.czf.server.controllers;
 
 import com.alibaba.fastjson.JSON;
-import com.czf.server.beans.Beans;
+import com.czf.server.beans.CourseScore;
 import com.czf.server.entities.Course;
 import com.czf.server.entities.Student;
 import com.czf.server.entities.StudentDAO;
@@ -59,11 +59,11 @@ public class StudentFunctions {
             return new ResponseEntity<>("该学生不存在", HttpStatus.NOT_FOUND);
         else{
             if ("all".equals(type)) {
-                List<Beans.CourseScore> scores = studentService.sumAll(id);
+                List<CourseScore> scores = studentService.sumAll(id);
                 return new ResponseEntity<>(JSON.toJSONString(scores), HttpStatus.OK);
             }
             int courseId = Integer.parseInt(type);
-            Beans.CourseScore courseScore = studentService.sumOne(id, courseId);
+            CourseScore courseScore = studentService.sumOne(id, courseId);
             return new ResponseEntity<>(JSON.toJSONString(courseScore), HttpStatus.OK);
         }
     }
