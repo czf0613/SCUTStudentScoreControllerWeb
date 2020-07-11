@@ -18,7 +18,7 @@ public class LoginService {
             return 0;//0表示用户不存在
         else{
             String temp=userDAO.getPasswordWithUserName(name);
-            if(bCryptPasswordEncoder.matches(password,temp))
+            if(!bCryptPasswordEncoder.matches(password,temp))
                 return -1;//-1表示密码不对
             else
                 return 1;//1表示密码正确

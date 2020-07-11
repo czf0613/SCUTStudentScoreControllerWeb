@@ -9,6 +9,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("/teacher")
 public class TeacherFunctions {
@@ -44,5 +46,23 @@ public class TeacherFunctions {
         Score score=JSON.parseObject(jsonString,Score.class);
         teacherService.modify(score);
         return new ResponseEntity<>("修改成功",HttpStatus.OK);
+    }
+
+    @RequestMapping(value = "/getNameWithIDs",method = RequestMethod.GET)
+    public ResponseEntity<String> getNames(@RequestParam("IDList")String list){
+        List<Integer> ids=JSON.parseArray(list,Integer.class);
+        if(ids==null||ids.isEmpty())
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        else{
+            List<String> names=teacherDAO.findNames(ids);
+            StringBuffer stringBuffer=new StringBuffer(names.get(0));
+            if(names.size()>1){
+                for(int i=1;i<names.size();++i){
+                    stringBuffer.append('、');
+                    stringBuffer.append(names.get(i));
+                }
+            }
+            return new ResponseEntity<>(stringBuffer.toString(),HttpStatus.OK);
+        }
     }
 }

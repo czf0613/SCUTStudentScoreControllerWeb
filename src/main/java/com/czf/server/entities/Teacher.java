@@ -6,6 +6,7 @@ import org.hibernate.annotations.TypeDef;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
@@ -64,6 +65,8 @@ public class Teacher {
     @Type(type = "json")
     @Column(name = "course", nullable = true,columnDefinition = "json")
     public List<Integer> getCourse() {
+        if(course==null)
+            course=new ArrayList<>();
         return course;
     }
 

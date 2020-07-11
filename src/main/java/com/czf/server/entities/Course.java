@@ -8,6 +8,7 @@ import javax.persistence.*;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.sql.Date;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
@@ -53,6 +54,8 @@ public class Course {
     }
 
     public void setTeachers(List<Integer> teachers) {
+        if(teachers==null)
+            teachers=new ArrayList<>();
         this.teachers = teachers;
     }
 
@@ -101,6 +104,8 @@ public class Course {
     @Type(type = "json")
     @Column(name = "students", nullable = true,columnDefinition = "json")
     public List<Integer> getStudents() {
+        if(students==null)
+            students=new ArrayList<>();
         return students;
     }
 

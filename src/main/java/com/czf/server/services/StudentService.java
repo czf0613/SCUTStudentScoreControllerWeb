@@ -36,7 +36,7 @@ public class StudentService {
         List<Course> courses=new ArrayList<>();
         List<Integer> courseIds=student.getCourse();
         if(courseIds==null||courseIds.isEmpty())
-            courses=new ArrayList<>();
+            courseIds=new ArrayList<>();
         for(Integer integer:courseIds)
             courses.add(courseDAO.findById(integer.intValue()));
         return courses;
