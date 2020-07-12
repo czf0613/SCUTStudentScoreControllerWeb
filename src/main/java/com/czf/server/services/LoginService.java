@@ -43,7 +43,13 @@ public class LoginService {
     }
 
     public boolean checkType(String name,int type){
-        int result=userDAO.getTypeWithUserName(name);
+        int result;
+        try{
+            result=userDAO.getTypeWithUserName(name);
+        }
+        catch (Exception e){
+            result=-1;
+        }
         return result==type;
     }
 

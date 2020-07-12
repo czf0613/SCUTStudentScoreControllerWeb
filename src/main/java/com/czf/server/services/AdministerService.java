@@ -90,6 +90,12 @@ public class AdministerService {
     }
 
     public boolean modify(Course course){
+        for(Integer integer:course.getTeachers()){
+            Teacher teacher=teacherDAO.findById(integer.intValue());
+            if(!teacher.getCourse().contains(course.getId()))
+                teacher.getCourse().add(course.getId());
+            teacherDAO.save(teacher);
+        }
         courseDAO.save(course);
         return true;
     }

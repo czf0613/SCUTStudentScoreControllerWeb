@@ -63,6 +63,8 @@ public class AdministerFunctions {
     @RequestMapping(value = "/teacherCourse/{id}",method = RequestMethod.GET)
     public ResponseEntity<String> teacherCourse(@PathVariable("id")int id){
         Teacher teacher=teacherDAO.findById(id);
+        if(teacher==null)
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         List<Course> courses=new ArrayList<>();
         for(Integer integer:teacher.getCourse())
             courses.add(courseDAO.findById(integer.intValue()));
@@ -72,7 +74,8 @@ public class AdministerFunctions {
     @RequestMapping(value = "/addCourse",method = RequestMethod.POST)
     public ResponseEntity<String> addCourse(@RequestParam("content")String jsonString){
         Course course=JSON.parseObject(jsonString,Course.class);
-        courseDAO.save(course);
+        course=courseDAO.save(course);
+        administerService.modify(course);
         return new ResponseEntity<>("添加成功",HttpStatus.OK);
     }
 
