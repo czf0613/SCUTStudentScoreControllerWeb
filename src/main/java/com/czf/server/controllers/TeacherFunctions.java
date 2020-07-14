@@ -65,4 +65,14 @@ public class TeacherFunctions {
             return new ResponseEntity<>(stringBuffer.toString(),HttpStatus.OK);
         }
     }
+
+    @RequestMapping(value = "/addScore",method = RequestMethod.POST)
+    public ResponseEntity<String> add(@RequestParam("teacherId")int teacher,@RequestParam("content")String content){
+        List<Score> scoreList=JSON.parseArray(content,Score.class);
+        String result=teacherService.addScore(scoreList,teacher);
+        if(result==null||result.isEmpty())
+            return new ResponseEntity<>(HttpStatus.OK);
+        else
+            return new ResponseEntity<>(result,HttpStatus.BAD_REQUEST);
+    }
 }

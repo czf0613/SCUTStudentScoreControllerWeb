@@ -88,4 +88,13 @@ public class StudentFunctions {
             return new ResponseEntity<>("退选成功",HttpStatus.OK);
         }
     }
+
+    @RequestMapping(value = "/{id}/name",method = RequestMethod.GET)
+    public ResponseEntity<String> getNameWithId(@PathVariable("id")int id){
+        Student student=studentDAO.findById(id);
+        if(student==null)
+            return new ResponseEntity<>("该学生不存在", HttpStatus.NOT_FOUND);
+        else
+            return new ResponseEntity<>(student.getName(),HttpStatus.OK);
+    }
 }

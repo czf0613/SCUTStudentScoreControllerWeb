@@ -144,4 +144,21 @@ public class AdministerFunctions {
         }
         return new ResponseEntity<>("修改成功",HttpStatus.OK);
     }
+
+    @RequestMapping(value = "/resetPassword",method = RequestMethod.POST)
+    public ResponseEntity<String> resetPassword(@RequestParam("userId")int id){
+        if(administerService.resetPassword(id))
+            return new ResponseEntity<>("重置成功",HttpStatus.OK);
+        else
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+    }
+
+    @RequestMapping(value = "/getCourse/{id}/name",method = RequestMethod.GET)
+    public ResponseEntity<String> getCourseName(@PathVariable("id")int id){
+        Course course=courseDAO.findById(id);
+        if(course==null)
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        else
+            return new ResponseEntity<>(course.getCourseName(),HttpStatus.OK);
+    }
 }

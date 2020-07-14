@@ -22,6 +22,8 @@ public class AdministerService {
     private ScoreDAO scoreDAO;
     @Autowired
     private UserDAO userDAO;
+    @Autowired
+    private LoginService loginService;
 
     public boolean removeStudent(int id){
         studentDAO.deleteById(id);
@@ -97,6 +99,14 @@ public class AdministerService {
             teacherDAO.save(teacher);
         }
         courseDAO.save(course);
+        return true;
+    }
+
+    public boolean resetPassword(int id){
+        String name=userDAO.getUserNameWithId(id);
+        if(name==null)
+            return false;
+        loginService.modifyPassword(name,"6FBA0F3A7C2C6F65AD906876437E31B29C5895FDF391E094DAB2845EBD18FD6A");
         return true;
     }
 }

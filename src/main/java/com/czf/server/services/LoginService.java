@@ -28,7 +28,7 @@ public class LoginService {
     public boolean modifyPassword(String name,String password){
         try{
             User user=userDAO.findByUserName(name);
-            user.setPassword(password);
+            user.setPassword(bCryptPasswordEncoder.encode(password));
             userDAO.save(user);
             return true;
         }

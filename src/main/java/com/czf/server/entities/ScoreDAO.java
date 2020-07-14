@@ -23,4 +23,6 @@ public interface ScoreDAO extends JpaRepository<Score,Integer> {
 
     @Transactional
     void deleteAllByCourseId(int id);
+
+    boolean existsByCourseIdAndStudentId(int courseId,int stuId);
 }
