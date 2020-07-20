@@ -11,6 +11,7 @@ public interface UserDAO extends JpaRepository<User,Integer> {
 
     @Transactional
     void deleteAllByFlagAndAccount(int flag,int account);
+
     User findByUserName(String userName);
 
     @Query(value = "select u.flag from User u where u.userName= :userName")
